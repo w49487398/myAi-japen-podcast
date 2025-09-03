@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "gh-pages": "^6.3.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "name": "realtime-weather-app",
+  "homepage": "https://w49487398.github.io//myAi-japen-podcast",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.0.2",
+    "vite": "^7.1.4"
+  }
+}
