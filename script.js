@@ -1,5 +1,11 @@
 // 設定 CSV 連結
-        async function fetchData() {
+    // state variables
+    let allCards = [];
+    let currentIndex = 0;
+    let isFlipped = false;
+    let availableVoices = [];
+
+    async function fetchData() {
             try {
                 console.log('fetchData: requesting /api/cards');
                 const res = await fetch('/api/cards');
