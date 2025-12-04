@@ -7,7 +7,7 @@
                 }
                 const data = await res.json();
                 
-                allCards = data.filter(item => item.word && item.word.trim() !== '');
+                allCards = data.filter(item => item.Word && item.Word.trim() !== '');
                 
                 if (allCards.length > 0) {
                     currentIndex = 0;
@@ -45,12 +45,12 @@
         }
 
         function updateContent(card) {
-            document.getElementById('frontWord').innerText = card.word;
-            document.getElementById('backReading').innerText = card.reading;
-            document.getElementById('backMeaning').innerText = card.meaning;
-            document.getElementById('backSentence').innerText = card.sentence;
-            document.getElementById('backAntonym').innerText = card.antonym;
-            document.getElementById('backGrammar').innerText = card.grammar;
+            document.getElementById('frontWord').innerText = card.Word;
+            document.getElementById('backReading').innerText = card.Reading;
+            document.getElementById('backMeaning').innerText = card.Meaning;
+            document.getElementById('backSentence').innerText = card.Sentence;
+            document.getElementById('backAntonym').innerText = card.Antonym;
+            document.getElementById('backGrammar').innerText = card.Grammar;
             document.getElementById('counterBadge').innerText = `${currentIndex + 1} / ${allCards.length}`;
         }
 
@@ -86,7 +86,7 @@
         function playAudio(e) {
             if (e) e.stopPropagation();
             if (allCards.length === 0) return;
-            const text = allCards[currentIndex].word;
+            const text = allCards[currentIndex].Word;
 
             if ('speechSynthesis' in window) {
                 const synth = window.speechSynthesis;
