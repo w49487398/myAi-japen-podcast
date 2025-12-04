@@ -110,3 +110,6 @@
             if (e.code === 'ArrowRight') changeCard(1);
             if (e.code === 'ArrowLeft') changeCard(-1);
         });
+
+        // 頁面載入時自動取資料
+        fetchData();
