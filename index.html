@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI 日語單字卡</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 頂部資訊列 -->
+    <div style="width: 90vw; max-width: 340px; display: flex; justify-content: space-between; margin-bottom: 10px;">
+        <div class="text-green-800 font-bold text-base flex items-center gap-2">
+            <i class="fas fa-layer-group"></i> 單字卡
+        </div>
+        <div id="counterBadge" class="bg-white text-gray-500 text-xs px-2 py-1 rounded-full shadow-sm border font-mono">
+            Loading...
+        </div>
+    </div>
+
+    <!-- 卡片區 -->
+    <div class="scene">
+        <div class="card" id="flashcard" onclick="toggleFlip()">
+            
+            <!-- 正面 -->
+            <div class="card-face card-front relative">
+                <div class="absolute inset-0 pattern-dots pointer-events-none"></div>
+                <span class="absolute top-5 left-5 text-[10px] font-bold text-green-600 bg-green-100 px-2 py-1 rounded tracking-wider">QUESTION</span>
+
+                <div class="z-10 text-center px-4 w-full break-words">
+                    <h2 id="frontWord" class="text-5xl font-black text-gray-800 leading-tight">
+                        <i class="fas fa-circle-notch fa-spin text-3xl text-gray-300"></i>
+                    </h2>
+                </div>
+
+                <div class="absolute bottom-6 text-gray-400 text-xs animate-bounce flex flex-col items-center">
+                    <span>Tap to flip</span>
+                    <i class="fas fa-chevron-down mt-1"></i>
+                </div>
+            </div>
+
+            <!-- 背面 -->
+            <div class="card-face card-back text-left">
+                <div class="bg-yellow-50 p-4 border-b border-yellow-100 flex items-center justify-between relative">
+                    <div>
+                        <p class="text-[10px] text-yellow-600 font-bold mb-1">ANSWER</p>
+                        <p id="backReading" class="text-xl text-green-700 font-bold tracking-wide">-</p>
+                    </div>
+                    <button onclick="playAudio(event)" class="w-10 h-10 rounded-full bg-white text-green-600 shadow-md border border-green-100 flex items-center justify-center transition hover:bg-green-50">
+                        <i class="fas fa-volume-up text-sm"></i>
+                    </button>
+                </div>
+
+                <div class="scroll-content space-y-4">
+                    <div>
+                        <h3 id="backMeaning" class="text-2xl font-black text-gray-800 mb-2">-</h3>
+                        <div class="h-1 w-10 bg-yellow-400 rounded-full"></div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-xl border border-gray-100">
+                        <div class="flex items-center gap-2 mb-1">
+                            <i class="fas fa-pen-nib text-gray-300 text-xs"></i>
+                            <span class="text-xs font-bold text-gray-400">例句</span>
+                        </div>
+                        <p id="backSentence" class="text-sm text-gray-700 leading-relaxed font-medium">-</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 pb-2">
+                        <div class="bg-gray-50 p-2 rounded-lg">
+                            <span class="text-[10px] text-gray-400 font-bold block mb-1">反義詞</span>
+                            <span id="backAntonym" class="text-sm text-gray-600 font-medium">-</span>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded-lg">
+                            <span class="text-[10px] text-gray-400 font-bold block mb-1">文法</span>
+                            <span id="backGrammar" class="text-sm text-gray-600 font-medium">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 控制按鈕 -->
+    <div class="controls">
+        <button onclick="changeCard(-1)" class="w-12 h-12 rounded-2xl bg-white text-gray-400 border border-gray-200 hover:text-green-600 shadow-sm flex items-center justify-center active:scale-95 touch-manipulation">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+
+        <button onclick="shuffleCards()" class="flex-1 h-12 rounded-2xl bg-white text-gray-600 border border-gray-200 font-bold shadow-sm flex items-center justify-center gap-2 active:scale-95 text-sm hover:bg-gray-50 touch-manipulation">
+            <i class="fas fa-random text-green-500"></i>
+        </button>
+
+        <button onclick="changeCard(1)" class="w-12 h-12 rounded-2xl bg-green-600 text-white shadow-lg shadow-green-200 flex items-center justify-center active:scale-95 hover:bg-green-700 touch-manipulation">
+            <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

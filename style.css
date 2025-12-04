@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+/* === Google Sites 專用優化 === */
+* {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    box-sizing: border-box;
+}
+
+/* 隱藏外層所有捲軸，避免 Google Sites 出現雙重捲軸 */
+body {
+    font-family: 'Noto Sans TC', 'Noto Sans JP', sans-serif;
+    background-color: #f9fafb; /* Give it a light gray background */
+    margin: 0;
+    padding: 20px; /* Add some padding */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Align to the top */
+}
+
+/* === 核心場景：強制固定大小 === */
+/* 這樣設定後，你在 Google Sites 只要把框拉得比這個大一點點就好 */
+.scene {
+    perspective: 1000px;
+    width: 90vw;       /* 手機上寬度 */
+    max-width: 340px;  /* 電腦上最大寬度 (卡片大小) */
+    height: 520px;     /* 強制固定高度，確保不管在哪個裝置都一樣高 */
+    position: relative;
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transform-style: preserve-3d;
+    cursor: pointer;
+}
+
+.card.is-flipped {
+    transform: rotateY(180deg);
+}
+
+.card-face {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    /* 陰影稍微縮小一點，避免被 Iframe 切到 */
+    box-shadow: 0 4px 25px rgba(0,0,0,0.1); 
+    background: white;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.card-front {
+    z-index: 2;
+    transform: rotateY(0deg);
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+    border: 2px solid #86efac;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    background: #fff;
+    border: 2px solid #fbbf24;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 內部內容捲動區 (只在這裡允許捲動) */
+.scroll-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    scrollbar-width: thin; /* Firefox 細捲軸 */
+    -webkit-user-select: text;
+    user-select: text;
+}
+
+/* 美化內部捲軸 */
+.scroll-content::-webkit-scrollbar {
+    width: 4px;
+}
+.scroll-content::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+.pattern-dots {
+    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.5;
+}
+
+button:active { transform: scale(0.95); }
+
+/* === 底部控制列 === */
+.controls {
+    width: 90vw;
+    max-width: 340px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px; /* 與卡片的距離 */
+    height: 50px;
+}
