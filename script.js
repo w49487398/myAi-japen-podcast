@@ -1,11 +1,17 @@
 // 設定 CSV 連結
         async function fetchData() {
             try {
+                console.log('fetchData: requesting /api/cards');
                 const res = await fetch('/api/cards');
+                console.log('fetchData: response status', res.status, res.ok);
                 if (!res.ok) {
-                    throw new Error(`Server error: ${res.status}`);
+                    const text = await res.text().catch(() => 'unable to read response text');
+                    console.error('fetchData: non-ok response', res.status, text);
+                    throw new Error(`Server error: ${res.status} ${text}`);
                 }
-                const data = await res.json();
+                const raw = await res.text();
+                console.log('fetchData: raw response', raw.slice(0, 200));
+                const data = JSON.parse(raw || '[]');
                 
                 allCards = data.filter(item => item.Word && item.Word.trim() !== '');
                 
@@ -17,8 +23,8 @@
                     showError("資料庫是空的");
                 }
             } catch (err) {
-                console.error(err);
-                showError("連線失敗");
+                console.error('fetchData error:', err);
+                showError("連線失敗: " + (err.message || err));
             }
         }
 
