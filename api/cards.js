@@ -1,13 +1,19 @@
 const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
-// Vercel 會自動處理環境變數，這主要用於本地開發
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
-
+// 建議在 handler 內建立 client，以便在執行時檢查 env
 module.exports = async (req, res) => {
     try {
+        const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+        const supabaseKey = process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
+
+        if (!supabaseUrl || !supabaseKey) {
+            console.error('Missing Supabase env vars:', { SUPABASE_URL: !!supabaseUrl, SUPABASE_ANON_KEY: !!supabaseKey });
+            return res.status(500).json({ error: 'Missing Supabase configuration. Check SUPABASE_URL and SUPABASE_ANON_KEY.' });
+        }
+
+        const supabase = createClient(supabaseUrl, supabaseKey);
+
         // 從 Supabase 的 'cards' 資料表中選擇所有資料
         const { data, error } = await supabase
             .from('cards')
@@ -20,7 +26,7 @@ module.exports = async (req, res) => {
         }
 
         // 成功取得資料，回傳 JSON 格式的資料
-        res.status(200).json(data);
+        return res.status(200).json(data);
 
     } catch (e) {
         // 捕獲其他預期外的錯誤
